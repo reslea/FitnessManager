@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200923141508_Initial.cs" />
+    <Compile Remove="Migrations\20200923141508_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200923141724_Initial.cs" />
+    <Compile Remove="Migrations\20200923141724_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200923141931_AddUniqueIndex.cs" />
+    <Compile Remove="Migrations\20200923141931_AddUniqueIndex.Designer.cs" />
+    <Compile Remove="Migrations\20200923142236_SeedUsersRolesPermissions.cs" />
+    <Compile Remove="Migrations\20200923142236_SeedUsersRolesPermissions.Designer.cs" />
+    <Compile Remove="Migrations\20200923142312_SeedUsersRolesPermissions.cs" />
+    <Compile Remove="Migrations\20200923142312_SeedUsersRolesPermissions.Designer.cs" />
+    <Compile Remove="Migrations\20200923154041_Remove Refresh Token Id.cs" />
+    <Compile Remove="Migrations\20200923154041_Remove Refresh Token Id.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
+  </ItemGroup>
+
+</Project>

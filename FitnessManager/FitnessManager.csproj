@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>0f821717-e4fd-4319-9eea-2484c7f17d70</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200901160804_initial.cs" />
+    <Compile Remove="Migrations\20200901160804_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200901160923_Initial.cs" />
+    <Compile Remove="Migrations\20200901160923_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200901161637_training.cs" />
+    <Compile Remove="Migrations\20200901161637_training.Designer.cs" />
+    <Compile Remove="Migrations\20200901162056_training.cs" />
+    <Compile Remove="Migrations\20200901162056_training.Designer.cs" />
+    <Compile Remove="Migrations\20200901162131_Training.cs" />
+    <Compile Remove="Migrations\20200901162131_Training.Designer.cs" />
+    <Compile Remove="Migrations\20200901163235_Training.cs" />
+    <Compile Remove="Migrations\20200901163235_Training.Designer.cs" />
+    <Compile Remove="Migrations\20200901163251_Training.cs" />
+    <Compile Remove="Migrations\20200901163251_Training.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Data\Infrastructure.Data.csproj" />
+  </ItemGroup>
+
+
+</Project>
