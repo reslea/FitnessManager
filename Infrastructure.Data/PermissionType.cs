@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Authentication.Data.Entities
+namespace Infrastructure.Data
 {
     public enum PermissionType
     {
         [Display(Name = "Назначать себе тренировку")]
         AssignTrainingToSelf = 1,
-        
+
         [Display(Name = "Назначать тренировки")]
         AssignTrainings,
-        
+
         [Display(Name = "Редактировать информацию о себе")]
         EditOwnProfile,
 

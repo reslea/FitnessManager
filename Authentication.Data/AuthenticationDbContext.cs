@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Authentication.Data.Entities;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Data

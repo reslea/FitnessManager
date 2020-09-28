@@ -1,13 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FitnessManager.Db.Entities;
 using FitnessManager.Db.Repositories;
+using FitnessManager.RequirePermission;
+using Infrastructure.Data;
+using Infrastructure.Web.RequirePermission;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CoachController : ControllerBase
     {
         private readonly ICoachRepository _repository;
@@ -33,6 +39,7 @@ namespace FitnessManager.Controllers
 
         // POST: api/Coach
         [HttpPost]
+        [PermissionRequirement(PermissionType.AddCoaches)]
         public async Task<ActionResult<Coach>> Post([FromBody] Coach coach)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

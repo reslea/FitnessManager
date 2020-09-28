@@ -48,7 +48,18 @@ namespace Authentication.API.Controllers
             var accessToken = GenerateAccessToken(user);
             var newRefreshToken = Guid.NewGuid();
 
-            user.RefreshToken.Refresh = newRefreshToken;
+            if(user.RefreshToken == null)
+            {
+                user.RefreshToken = new RefreshToken
+                {
+                    Refresh = newRefreshToken,
+                    UserId = user.Id
+                };
+            }
+            else
+            {
+                user.RefreshToken.Refresh = newRefreshToken;
+            }
             await _context.SaveChangesAsync();
 
             return Ok(new TokenResponseModel(accessToken, newRefreshToken));
