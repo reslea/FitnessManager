@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Authentication.API.Models;
 using Authentication.Data;
 using Authentication.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -62,16 +63,19 @@ namespace Authentication.API.Controllers
             }
             await _context.SaveChangesAsync();
 
-            return Ok(new TokenResponseModel(accessToken, newRefreshToken));
+            AddRefreshTokenCookie(newRefreshToken);
+            return Ok(new TokenResponseModel(accessToken));
         }
 
         [HttpPost("refresh")]
-        public async Task<ActionResult<TokenResponseModel>> Refresh([FromBody] RefreshTokenModel model)
+        public async Task<ActionResult<TokenResponseModel>> Refresh()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var refreshTokenStr = HttpContext.Request.Cookies["Refresh"];
+
+            if (!Guid.TryParse(refreshTokenStr, out var refreshToken)) return BadRequest();
 
             var existingToken = await _context.RefreshTokens
-                .FirstOrDefaultAsync(rt => rt.Refresh == model.RefreshToken);
+                .FirstOrDefaultAsync(rt => rt.Refresh == refreshToken);
 
             if (existingToken == null) return Unauthorized();
 
@@ -99,7 +103,8 @@ namespace Authentication.API.Controllers
             user.RefreshToken.Refresh = newRefreshToken;
             await _context.SaveChangesAsync();
 
-            return Ok(new TokenResponseModel(accessToken, newRefreshToken));
+            AddRefreshTokenCookie(newRefreshToken);
+            return Ok(new TokenResponseModel(accessToken));
         }
 
         private string GenerateAccessToken(User user)
@@ -130,6 +135,15 @@ namespace Authentication.API.Controllers
             
              var jwtToken = handler.CreateJwtSecurityToken(tokenDescriptor);
              return handler.WriteToken(jwtToken);
+        }
+
+        private void AddRefreshTokenCookie(Guid refreshToken)
+        {
+            HttpContext.Response.Cookies
+                .Append("Refresh", refreshToken.ToString(), new CookieOptions
+            {
+                HttpOnly = true
+            });
         }
     }
 }

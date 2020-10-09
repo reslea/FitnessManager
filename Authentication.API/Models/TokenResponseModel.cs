@@ -9,12 +9,9 @@ namespace Authentication.API.Models
     {
         public string AccessToken { get; set; }
 
-        public Guid RefreshToken { get; set; }
-
-        public TokenResponseModel(string accessToken, Guid refreshToken)
+        public TokenResponseModel(string accessToken)
         {
             AccessToken = accessToken;
-            RefreshToken = refreshToken;
         }
     }
 }
