@@ -18,12 +18,11 @@
     },
     "FitnessManager": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "api/coach",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000;https://localhost:5001"
+      "applicationUrl": "http://localhost:5002;https://localhost:5003"
     }
   }
 }

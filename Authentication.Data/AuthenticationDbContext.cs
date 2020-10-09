@@ -90,12 +90,12 @@ namespace Authentication.Data
             modelBuilder.Entity<User>()
                 .HasData(new[]
                 {
-                    new User { Id = 1, RoleId = 1, Password = "123", Username = "1" },
-                    new User { Id = 2, RoleId = 1, Password = "123", Username = "2" },
-                    new User { Id = 3, RoleId = 1, Password = "123", Username = "3" },
-                    new User { Id = 4, RoleId = 2, Password = "123", Username = "4" },
-                    new User { Id = 5, RoleId = 3, Password = "123", Username = "5" },
-                    new User { Id = 6, RoleId = 4, Password = "123", Username = "6" },
+                    new User { Id = 1, RoleId = 1, Password = "123", Username = "user1" },
+                    new User { Id = 2, RoleId = 1, Password = "123", Username = "user2" },
+                    new User { Id = 3, RoleId = 1, Password = "123", Username = "user3" },
+                    new User { Id = 4, RoleId = 2, Password = "123", Username = "user4" },
+                    new User { Id = 5, RoleId = 3, Password = "123", Username = "user5" },
+                    new User { Id = 6, RoleId = 4, Password = "123", Username = "user6" },
                 });
         }
     }

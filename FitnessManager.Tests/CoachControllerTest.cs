@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 using FitnessManager.Db.Entities;
 using Newtonsoft.Json;
@@ -32,6 +35,26 @@ namespace FitnessManager.Tests
                     && c.LastName == coach.LastName
                     && c.Specialty == coach.Specialty);
             }
+        }
+
+        [Fact]
+        public async Task CreateCoach()
+        {
+            var coach = GetRandomCoach();
+
+            var coachJson = JsonConvert.SerializeObject(coach);
+
+            var response = await _client.PostAsync("/api/coach", 
+                new StringContent(coachJson, Encoding.UTF8, MediaTypeNames.Application.Json));
+
+            Assert.True(response.IsSuccessStatusCode);
+
+            var coachDb = _context.Coaches.FirstOrDefault(c =>
+           c.FirstName == coach.FirstName
+           && c.LastName == coach.LastName
+           && c.Specialty == coach.Specialty);
+
+            Assert.NotNull(coachDb);
         }
 
         private static Coach GetRandomCoach()

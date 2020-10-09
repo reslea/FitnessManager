@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using FitnessManager.Db.Entities;
 using FitnessManager.Db.Repositories;
-using FitnessManager.RequirePermission;
 using Infrastructure.Data;
 using Infrastructure.Web.RequirePermission;
 using Microsoft.AspNetCore.Authorization;
