@@ -1,5 +1,4 @@
-export enum PermissionType
-{
+export enum PermissionType {
   AssignTrainingToSelf = 1,
   AssignTrainings,
   EditOwnProfile,
