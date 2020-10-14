@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TrainingType} from '../../domain/trainingType';
 import {CoachService} from '../../services/coach.service';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-coach-add',
@@ -12,9 +13,12 @@ export class AddCoachComponent implements OnInit {
   lastName: string;
   trainingType: TrainingType;
 
-  constructor(readonly coachService: CoachService) { }
+  constructor(readonly coachService: CoachService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    const trainingTypeKey = 'trainingType';
+    this.route.params.subscribe(params => this.trainingType = params[trainingTypeKey]);
   }
 
   async add(firstName: string, lastName: string, trainingType: TrainingType) {

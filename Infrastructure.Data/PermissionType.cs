@@ -2,6 +2,7 @@
 
 namespace Infrastructure.Data
 {
+    // TODO: update ui/src/app/security/PermissionType.ts while updating this enum
     public enum PermissionType
     {
         [Display(Name = "Назначать себе тренировку")]

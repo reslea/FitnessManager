@@ -133,8 +133,8 @@ namespace Authentication.API.Controllers
 
             var handler = new JwtSecurityTokenHandler();
             
-             var jwtToken = handler.CreateJwtSecurityToken(tokenDescriptor);
-             return handler.WriteToken(jwtToken);
+            var jwtToken = handler.CreateJwtSecurityToken(tokenDescriptor);
+            return handler.WriteToken(jwtToken);
         }
 
         private void AddRefreshTokenCookie(Guid refreshToken)

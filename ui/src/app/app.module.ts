@@ -8,6 +8,20 @@ import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {AuthTokenInterceptor} from './security/auth-token-interceptor.service';
 import { AddCoachComponent } from './coach/add/add-coach.component';
+import {Router, RouterModule, Routes} from '@angular/router';
+import {PermissionGuard} from './security/permission.guard';
+import {PermissionType} from './security/permissionType';
+
+const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'addCoach',
+    component: AddCoachComponent,
+    canActivate: [PermissionGuard],
+    data: { requiredPermissions: [ PermissionType.AddCoaches ] }
+  },
+  { path: '**', component: LoginComponent }
+];
 
 @NgModule({
   declarations: [
@@ -19,7 +33,8 @@ import { AddCoachComponent } from './coach/add/add-coach.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

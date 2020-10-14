@@ -50,9 +50,6 @@ export class AuthService {
 
   processToken(response: TokenResponse) {
     const token = response.accessToken;
-    console.log(token);
-    console.log(`accessSubject`, this.$accessToken);
-    console.log(`userSubject`, this.$userInfo);
 
     const userInfo = new UserInfo(jwt_decode(token));
     this.$accessToken.next(token);

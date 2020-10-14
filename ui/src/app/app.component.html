@@ -1,8 +1,12 @@
-<div class="form">
-  <h1>Login:</h1>
-  <app-login></app-login>
-</div>
-<div class="form">
-  <h1>Add Coach:</h1>
-  <app-coach-add></app-coach-add>
-</div>
+<nav>
+  <ul>
+    <li>
+      <a routerLink="login">Login</a>
+    </li>
+    <li>
+      <a routerLink="addCoach">Add coach</a>
+    </li>
+  </ul>
+</nav>
+
+<router-outlet></router-outlet>
