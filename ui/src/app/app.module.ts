@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import {HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
-import {AuthTokenInterceptor} from "./security/auth-token-interceptor.service";
+import {HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {AuthTokenInterceptor} from './security/auth-token-interceptor.service';
 import { AddCoachComponent } from './coach/add/add-coach.component';
 
 @NgModule({

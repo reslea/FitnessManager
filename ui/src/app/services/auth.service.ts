@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import jwt_decode from "jwt-decode";
 import UserInfo from "../security/userInfo";
@@ -23,7 +23,7 @@ export class AuthService {
     this.$userInfo
       .pipe(tap(userInfo => {
         if (userInfo) {
-          localStorage[this.storageKey] = JSON.stringify(userInfo.expires);
+          localStorage[this.storageKey] = JSON.stringify(true);
         }
       }))
       .subscribe();
@@ -31,11 +31,31 @@ export class AuthService {
 
   login(username: string, password: string) {
     const jsonBody = JSON.stringify({ username, password });
-    this.http.post(`${this.apiUrl}/authenticate`, jsonBody)
-      .subscribe((response: TokenResponse) => {
-        const token = response.accessToken;
-        this.$accessToken.next(token);
-        this.$userInfo.next(new UserInfo(jwt_decode(token)));
-      });
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8' });
+    this.http.post(`${this.apiUrl}/authenticate`, jsonBody, { headers })
+      .pipe(tap(this.processToken.bind(this)))
+      .subscribe();
+  }
+
+  refresh()  {
+    if (!localStorage[this.storageKey]) {
+      console.log('there is no refresh token, need to login');
+      return throwError('there is no refresh token, need to login');
+    }
+    this.http.get(`${this.apiUrl}/refresh`)
+      .pipe(tap(this.processToken.bind(this)))
+      .subscribe();
+  }
+
+  processToken(response: TokenResponse) {
+    const token = response.accessToken;
+    console.log(token);
+    console.log(`accessSubject`, this.$accessToken);
+    console.log(`userSubject`, this.$userInfo);
+
+    const userInfo = new UserInfo(jwt_decode(token));
+    this.$accessToken.next(token);
+    this.$userInfo.next(userInfo);
   }
 }

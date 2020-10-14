@@ -67,7 +67,7 @@ namespace Authentication.API.Controllers
             return Ok(new TokenResponseModel(accessToken));
         }
 
-        [HttpPost("refresh")]
+        [HttpGet("refresh")]
         public async Task<ActionResult<TokenResponseModel>> Refresh()
         {
             var refreshTokenStr = HttpContext.Request.Cookies["Refresh"];
@@ -142,7 +142,8 @@ namespace Authentication.API.Controllers
             HttpContext.Response.Cookies
                 .Append("Refresh", refreshToken.ToString(), new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                Expires = DateTime.Now.AddDays(100)
             });
         }
     }
