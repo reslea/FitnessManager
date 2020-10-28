@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FitnessManager.Db.Entities;
 using FitnessManager.Db.Repositories;
 using FitnessManager.Models;
+using FitnessManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessManager.Controllers
@@ -11,16 +12,16 @@ namespace FitnessManager.Controllers
     [ApiController]
     public class TrainingController : ControllerBase
     {
-        private readonly ITrainingRepository _repository;
+        private readonly ITrainingService _trainingService;
         private readonly ICoachRepository _coachRepository;
         private readonly IHallRepository _hallRepository;
 
         public TrainingController(
-            ITrainingRepository repository,
+            ITrainingService trainingService,
             ICoachRepository coachRepository,
             IHallRepository hallRepository)
         {
-            _repository = repository;
+            _trainingService = trainingService;
             _coachRepository = coachRepository;
             _hallRepository = hallRepository;
         }
@@ -45,30 +46,14 @@ namespace FitnessManager.Controllers
                 return BadRequest($"No hall was found with Id:{model.HallId}");
             }
 
-            var dateFrom = model.StartTime.AddHours(-1);
-            var dateTo = model.StartTime.AddHours(1);
-            var conflictingTrainings = _repository
-                .GetForRange(dateFrom, dateTo)
-                .Where(t => t.CoachId == model.CoachId || t.HallId == model.HallId);
-
-            if (conflictingTrainings.Any())
+            if (await _trainingService.HasConflictingTraining(model))
             {
                 return BadRequest($"Cannot add training for this time");
             }
-            
-            var entity = new Training
-            {
-                Title = model.Title,
-                TrainingType = model.TrainingType,
-                CoachId = model.CoachId,
-                HallId = model.HallId,
-                StartTime = model.StartTime
-            };
 
-            _repository.Create(entity);
-            await _repository.SaveChangesAsync();
+            await _trainingService.Add(model);
 
-            return Created(string.Empty, entity);
+            return Accepted();
         }
     }
 }

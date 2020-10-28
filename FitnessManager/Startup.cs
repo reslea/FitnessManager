@@ -1,8 +1,11 @@
 using System;
 using System.Text;
 using AutoMapper;
+using EventStore.ClientAPI;
+using EventStore.ClientAPI.SystemData;
 using FitnessManager.Db;
 using FitnessManager.Db.Repositories;
+using FitnessManager.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,13 +58,26 @@ namespace FitnessManager
                     };
                 });
 
-            var connectionString = Configuration["DbConnectionString"];
+            var dbConnectionString = Configuration["DbConnectionString"];
             services.AddDbContext<FitnessDbContext>(
-                builder => builder.UseSqlServer(connectionString));
+                builder => builder.UseSqlServer(dbConnectionString));
 
             services.AddScoped<IHallRepository, HallRepository>();
             services.AddScoped<ICoachRepository, CoachRepository>();
-            services.AddScoped<ITrainingRepository, TrainingRepository>();
+            services.AddScoped<ITrainingService, TrainingService>();
+
+            services.AddSingleton<IEventStoreConnection>(serviceProvider =>
+            {
+                var connectionString = Configuration["EventStoreConnectionString"];
+                var conn = EventStoreConnection.Create(new Uri(connectionString));
+                conn.ConnectAsync().Wait();
+                return conn;
+            });
+
+            services.AddSingleton<UserCredentials>(serviceProvider => serviceProvider
+                .GetService<IEventStoreConnection>()
+                .Settings
+                .DefaultUserCredentials);
 
             services.AddAutoMapper(GetType());
         }
